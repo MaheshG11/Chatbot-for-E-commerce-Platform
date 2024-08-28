@@ -1,0 +1,15 @@
+llama-index
+pypdf
+openai
+wavio
+scipy
+soundfile
+g2p-en
+torch
+torchvision
+torchaudio
+sounddevice
+accelerate
+# pyaudio
+google-generativeai
+PIL
