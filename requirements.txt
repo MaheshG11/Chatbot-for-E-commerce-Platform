@@ -13,3 +13,8 @@ accelerate
 # pyaudio
 google-generativeai
 PIL
+fastapi
+uvicorn
+python-dotenv
+transformers
+pymilvus
