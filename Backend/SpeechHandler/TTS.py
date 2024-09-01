@@ -18,7 +18,7 @@ class SpeechHandler:
 start = time.perf_counter()
 print("here")
 
-text="Hello, my dog is cute fuck."
+text="Hello, my dog is cute."
 speechHandler=SpeechHandler()
 waveform=speechHandler.TTS(text)
 print(type(waveform)) # <class 'torch.Tensor'>
