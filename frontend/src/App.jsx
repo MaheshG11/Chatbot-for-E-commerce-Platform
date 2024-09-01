@@ -9,7 +9,6 @@ function App() {
     category: "",
     brand: "",
     modelNumber: "",
-    about: "",
     details: "",
     price: "",
     currency: "",
@@ -31,16 +30,15 @@ function App() {
       category: value.category,
       brand: value.brand,
       modelNumber: value.modelNumber,
-      about: value.about,
       details: value.details,
       price: value.price,
       currency: value.currency,
       size: value.size,
-      imgUrl: value.url,
+      imgUrl: value.imgUrl,
     };
     // console.log(jsonData);
     try {
-      const response = await axios.post("http://localhost:9000/", jsonData, {
+      const response = await axios.post("http://localhost:8002/ingest", jsonData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -71,23 +69,14 @@ function App() {
           onChange={(e) => handleChanges(e)}
         />
 
-        <label htmlFor="category">Category</label>
-        <select
-          name="category"
-          id="category"
-          onChange={(e) => handleChanges(e)}
-        >
-          <option value="" disabled selected hidden>
-            Select Category
-          </option>
-          <option value="shirt">Shirt</option>
-          <option value="tshirt">T-Shirt</option>
-          <option value="jeans">Jeans</option>
-          <option value="joggers">Joggers</option>
-          <option value="jacket">Jacket</option>
-          <option value="trousers">Trousers</option>
-        </select>
 
+        <label htmlFor="category">Category</label>
+        <input
+          type="text"
+          placeholder="Enter the Category of the product"
+          name="category"
+          onChange={(e) => handleChanges(e)}
+        />
         <label htmlFor="brand">Brand</label>
         <input
           type="text"
@@ -104,16 +93,7 @@ function App() {
           onChange={(e) => handleChanges(e)}
         />
 
-        <label htmlFor="about">About</label>
-        <textarea
-          name="about"
-          id="about"
-          cols="30"
-          rows="10"
-          placeholder="Enter description"
-          onChange={(e) => handleChanges(e)}
-        ></textarea>
-
+ 
         <label htmlFor="details">Details</label>
         <textarea
           name="details"
@@ -147,17 +127,13 @@ function App() {
           <option value="Yen">&#165; - Yen</option>
         </select>
 
-        <label htmlFor="size">Size</label>
-        <select name="size" id="size" onChange={(e) => handleChanges(e)}>
-          <option value="" disabled selected hidden>
-            Select Size
-          </option>
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
-          <option value="XXL">XXL</option>
-        </select>
+        <label htmlFor="size">size</label>
+        <input
+          type="text"
+          placeholder="Enter size of product"
+          name="size"
+          onChange={(e) => handleChanges(e)}
+        />
 
         {/* <label htmlFor='image'>Select Image</label>
         <input type='file' name='image' accept='image/*' placeholder='Select the file' 

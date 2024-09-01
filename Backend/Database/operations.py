@@ -19,7 +19,7 @@ class Database:
         fields = [
             FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, description="primary id",auto_id=True),
             FieldSchema(name="name", dtype=DataType.VARCHAR, max_length=1024),
-            FieldSchema(name="Description", dtype=DataType.VARCHAR, max_length=1024),
+            FieldSchema(name="Description", dtype=DataType.VARCHAR, max_length=10240),
             FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=dimension),
             FieldSchema(name="link", dtype=DataType.VARCHAR, max_length=1024),
         ]

@@ -1,5 +1,5 @@
 
-from llms.Embedder import Electra_Embedder,Bert_Embedder,Sentence_Embedder
+from llms.Embedder import Sentence_Embedder
 from Database.operations import Database
 from llms.geminiAPI import InferGemini
 import json
@@ -22,14 +22,14 @@ class llmInteractions:
         print("IP")
 
     async def ingest(self,data:dict):
-        link= data["image"] if "image" in data else "www.example.com"
+        link= data["imgUrl"] if "imgUrl" in data else "www.example.com"
         text=json.dumps(data)
         # print(type(data)) # = string
         augmentedDataList=self.Gemini.augment(text)
     
         for augmentedData in augmentedDataList:
             embedding=self.embedder.embed(text=augmentedData)
-            self.database.insert(name=data["name"],desc=text,embedding=embedding,link=link)
+            self.database.insert(name=data["productName"],desc=text,embedding=embedding,link=link)
 
     async def inference(self,query):
         # speech to text to be integrated
