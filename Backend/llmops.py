@@ -34,7 +34,9 @@ class llmInteractions:
     async def inference(self,query):
         # speech to text to be integrated
         query="User's Query: "+query
-        finalResponse=self.Gemini.Inference(query=query,conversationHistory=json.dumps(conversationHistory),PurchaseHistory=PurchaseHistory,userInformation=userInformation)
+        finalResponse=self.Gemini.Inference(query=query,conversationHistory=json.dumps(conversationHistory),
+                                            PurchaseHistory=PurchaseHistory,userInformation=userInformation,
+                                            PreviouslyViewedProducts=previouslyViewedProducts)
         
         conversationHistory.append({query:finalResponse['response']})
         if(len(conversationHistory)>5):
@@ -54,6 +56,7 @@ class llmInteractions:
                 del data['embedding']
                 products.append(data)
             response["products"]=products
+            previouslyViewedProducts={"Previously Viewed Products":products}
             
         return response
 
