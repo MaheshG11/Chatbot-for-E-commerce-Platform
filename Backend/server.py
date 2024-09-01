@@ -17,9 +17,12 @@ async def ingestion(request:Request):
     await llm.ingest(data)
     return {"message": "Hello World"}
 
-@app.get("/")
-async def ingestio():
-    return {"message": "Hello World"}
+@app.get("/infer")
+async def inference(request:Request):
+    data= await request.json()
+    response= await llm.inference(data['query'])
+    
+    return response
 if __name__ == "__main__":
     uvicorn.run(
         app,

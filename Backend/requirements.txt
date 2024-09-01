@@ -1,6 +1,3 @@
-llama-index
-pypdf
-openai
 wavio
 scipy
 soundfile
@@ -10,11 +7,11 @@ torchvision
 torchaudio
 sounddevice
 accelerate
-# pyaudio
+pyaudio
 google-generativeai
-PIL
 fastapi
 uvicorn
 python-dotenv
 transformers
 pymilvus
+sentence-transformers

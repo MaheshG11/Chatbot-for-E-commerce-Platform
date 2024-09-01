@@ -1,4 +1,5 @@
-from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection,Milvus,Connections
+from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection,MilvusClient
+import os
 class Database:
     def __init__(self,dimension,collectionName,metricType,indexType,port,host) -> None:
         # Connect to MilvusDB
@@ -6,6 +7,10 @@ class Database:
         connections.connect(host=host, port=port)
         self.metricType=metricType
         self.indexType=indexType
+        self.collectionName=collectionName
+        self.client=MilvusClient(
+                uri=f"http://{os.getenv("MilvusHost")}:{os.getenv("MilvusPort")}"
+            )
         # Load data and preprocess
          # Replace with appropriate data loading method
         # Apply preprocessing steps as needed
@@ -39,7 +44,7 @@ class Database:
                 "link":link   
             }
         ]
-        self.ProductCollection.insert(data=data)
+        self.collection.insert(data=data)
     def search(self,embedding):
         results = self.collection.search(
             data=embedding,
@@ -51,6 +56,7 @@ class Database:
         )
         return results
 
+if __name__=="__main__":
         
-database=Database(dimension= 2,collectionName="name",metric="L2",indexType="IVF_FLAT",port=19530,host="localhost")
-database.insert("something","sdf","dfgdfg",[1024,1024])
+    database=Database(dimension= 2,collectionName="name",metric="L2",indexType="IVF_FLAT",port=19530,host="localhost")
+    database.insert("something","sdf","dfgdfg",[1024,1024])

@@ -1,7 +1,9 @@
-.env
+.env*
 .venv
 volumes
 dataset
 *__pycache__
 *ipynb
 *.wav
+*.yaml
+*dockerfile

@@ -2,27 +2,20 @@ from transformers import BertTokenizer, BertModel
 import torch
 from transformers import AutoTokenizer, AutoModel
 from torch.cuda import is_available
+from sentence_transformers import SentenceTransformer
 device="cuda" if is_available() else "cpu"
-class Bert_Embedder:
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    model = (BertModel.from_pretrained("bert-base-uncased"))#.to(device)
-    dimension=768
+
+
+# large Embedding models
+
+class Sentence_Embedder:
+    model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+    dimension=384
     def embed(self,text:str):
-        tokenizedInput = self.tokenizer(text, return_tensors='pt')
-        return (self.model(**tokenizedInput)).last_hidden_state.mean(dim=1).squeeze().tolist()
+        return list((self.model.encode(text)))
+        
 
 
-class Electra_Embedder:
-    tokenizer = AutoTokenizer.from_pretrained("google/electra-large-discriminator")
-    model = AutoModel.from_pretrained("google/electra-large-discriminator")
-    dimension=1024
-    def embed(self,text:str):
-        tokenizedInput = self.tokenizer(text, return_tensors='pt')
-        with torch.no_grad():
-            outputs = self.model(**tokenizedInput)
-            embeddings = outputs.last_hidden_state.squeeze(0).tolist()
-
-        return embeddings
 
 # Sample text
 

@@ -9,7 +9,7 @@ class InferGemini:
     def __init__(self) -> None:
         self.model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
-    def getlist(s):
+    def getlist(self,s):
         x=0
         y=-1
         while(s[x]!='[' and x<len(s)):
@@ -30,19 +30,43 @@ class InferGemini:
             else:
                 st+=ch
         return li
+    
+    def getJson(self,s):
+        i=0
+        j=len(s)-1
+        while(s[i]!='{'):i+=1
+        while(s[j]!='}'):j-=1
+        return s[i:j+1]
 
-    def firstInference(self,query,conversationHistory="",PreviouslyViewedProducts="",userInformation=""):
-        structure_of_request='''[relevant information and query structure, format of response required,conversation history,previously viewed products, user information, query]'''
-        relevantInformationAndQueryStructure=f"Assume that you are an AI who is specialized in selling product.The structure of this request is {structure_of_request}"
-        response_format='''Respond in this Json format {"answer":string,"isRAG_Required":bool}.Do not give any other additional information.
-        'answer'If RAG is not required then 'answer' is the answer for the 'query' based on given information, 
-        else if RAG is required then the 'answer' field shall be the string that will perform better for RAG search, include any information necessary from any of given information.
-        Description: isRAG_Required: is it required to get data from database or perform a RAG call? Note This value is False if more information is needed. Allowed values : true or flase,
-        '''
+    def Inference(self,query,conversationHistory="",PurchaseHistory="",userInformation="",PreviouslyViewedProducts=""):
+        instructions='''
+                    System: This is a conversation between user and an AI product seller. You are acting as a AI product seller. 
+                            You are given conversation history, user Details and Purchase History. Do not to refer to any external 
+                            knowledge base and respond as fast as possible. You will have access to product knowledge base.
 
-        request_body=[relevantInformationAndQueryStructure,response_format,conversationHistory,PreviouslyViewedProducts,userInformation,query]
+                    Output Format:
+                            JSON
+                            {
+                              "rag_required": true|false,
+                              "search_phrase":"Rag Generation keywords and phrases" 
+                              "response": "The generated response"
+                            }
+
+                    Task:
+                        rad_required: Determine if the query requires RAG from product knowledge base or can be answered based on the provided context.
+                        search_phrase: If RAG is required, generate a search phrase to be used for searching. keep this phrase informative about the 
+                        product and do not use any unnecessary words, include all necessary words and keep length of sentence short. But of length atleast 4 words
+                        Response Generation: Generate a direct response based on the provided context, query if rag is required then assume 
+                        that you are already showing a few products that we will get from RAG call. If additional information is required mention it in 
+                        this response.
+                    '''
+        
+        
+
+        request_body=[instructions,conversationHistory,PurchaseHistory,userInformation,PreviouslyViewedProducts,query]
         response = self.model.generate_content(request_body)
-        return json.loads(response.text)
+        return json.loads(self.getJson(response.text))
+       
     def augment(self,ProductDetailsJson:str):
         Instructions="Given Product Details, write a product description. Note: This description is to be written such that Embeddings generated using this description can be used for storing into database which then can be used for efficient and accurate vector searches for RAG implementation. Do not output anything other than product description"
         Instructions='''

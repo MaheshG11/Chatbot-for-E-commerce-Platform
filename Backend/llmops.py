@@ -1,29 +1,61 @@
 
-from llms.Embedder import Electra_Embedder
+from llms.Embedder import Electra_Embedder,Bert_Embedder,Sentence_Embedder
 from Database.operations import Database
 from llms.geminiAPI import InferGemini
 import json
-from fastapi import Request
+import os
+
+userInformation="User Information:{name:Mahesh, Occupation: Engineering Student,gender:Male}"
+PurchaseHistory="Purchase History:Previously purchased Items include protien powder, Iphone 15 pro, Peanut butter, beardo's Face Serum, sunscreen, Hard Disk."
+conversationHistory=[]
+previouslyViewedProducts={}
+
 class llmInteractions:
     
     def __init__(self) -> None:
         
-        self.embedder=Electra_Embedder()
-        self.database=Database(self.embedder.dimension,"productDetails",)
+        self.embedder=Sentence_Embedder()
         self.Gemini=InferGemini()
-        self.database=Database(dimension= self.embedder.dimension,collectionName="productDetails",metric="L2",indexType="IVF_FLAT",port=19530,host="localhost")
+        self.database=Database(dimension= self.embedder.dimension,collectionName="productDetails",
+                               metricType="IP",indexType="IVF_FLAT",port=os.getenv("MilvusPort"),
+                               host=os.getenv("MilvusHost"))
+        print("IP")
 
     async def ingest(self,data:dict):
-        link= data["link"] if "link" in data else "www.example.com"
+        link= data["image"] if "image" in data else "www.example.com"
         text=json.dumps(data)
         # print(type(data)) # = string
         augmentedDataList=self.Gemini.augment(text)
+    
         for augmentedData in augmentedDataList:
             embedding=self.embedder.embed(text=augmentedData)
             self.database.insert(name=data["name"],desc=text,embedding=embedding,link=link)
 
     async def inference(self,query):
-        return self.Gemini.firstInference(query=query)
+        # speech to text to be integrated
+        query="User's Query: "+query
+        finalResponse=self.Gemini.Inference(query=query,conversationHistory=json.dumps(conversationHistory),PurchaseHistory=PurchaseHistory,userInformation=userInformation)
+        
+        conversationHistory.append({query:finalResponse['response']})
+        if(len(conversationHistory)>5):
+            conversationHistory.remove(0)
+        response={"response":finalResponse['response']}
+        if(finalResponse['rag_required']):
+            search_text=finalResponse['search_phrase'] if 'search_phrase' in finalResponse else finalResponse['response']
+            response={"search_phrase":search_text}
+            search_vector=[self.embedder.embed(search_text)]
+            print(search_text)
+            topk=self.database.search(search_vector)
+            products=[]
+            for i in topk[0]:
+                print(i)
+                data=(self.database.client.get(collection_name=self.database.collectionName,ids=[i.id]))[0]
+
+                del data['embedding']
+                products.append(data)
+            response["products"]=products
+            
+        return response
 
 
 
