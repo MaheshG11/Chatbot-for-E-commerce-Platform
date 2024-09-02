@@ -38,11 +38,15 @@ async def ingestion(request:Request):
         response={"message": "Data Entered Successfully"}
     return response
 
-@app.get("/infer")
+@app.post("/infer")
 async def inference(request:Request):
     data= await request.json()
+    # data=request.body()
+    # print(request)
+    print((data))
+    response="hehe"
     response= await llm.inference(data['query'])
-    response=data
+    # response=data
     return response
 if __name__ == "__main__":
     uvicorn.run(

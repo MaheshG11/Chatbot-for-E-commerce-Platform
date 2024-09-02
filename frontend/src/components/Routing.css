@@ -1,0 +1,50 @@
+
+button{
+    background-color: #585858;
+    width: fit-content;
+}
+
+.Routing-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 22px;
+    /* padding: 20px; */
+    color: #585858;
+    background-color: #f5f5f5; /* Light gray background */
+    border-bottom: 1px solid #ccc; /* Optional border */
+    position: fixed; /* Fix the Routing-navbar to the top */
+  top: 0; /* Position it at the top of the viewport */
+  width: 100%; /* Make it full width */
+  z-index: 999; /* Ensure it's on top of other elements */
+
+  }
+  
+  .Routing-nav p {
+    font-size: 20px; /* Adjust font size as needed */
+    font-weight: bold;
+    margin: 0; /* Remove default margin */
+  }
+  
+  .App-button {
+    
+    background-color: #585858;
+    width: fit-content;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .App-button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .Routing-nav img {
+    width: 30px; /* Adjust image size as needed */
+    height: 30px;
+    border-radius: 50%;
+  }

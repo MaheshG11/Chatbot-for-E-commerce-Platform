@@ -1,8 +1,23 @@
 body{
-  background-color: rgb(244, 208, 63);
-  text-align: center;
+  background-color: rgb(220,220,220);
 }
-
+.cen{
+  
+  padding: 10px 20px;
+  text-align: center;
+  margin: auto;
+  margin-top: 20px;
+}
+.nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 22px;
+    padding: 20px;
+    color: #585858;
+    
+    
+}
 .container{
   background-color: white;
    border-radius: 15px;

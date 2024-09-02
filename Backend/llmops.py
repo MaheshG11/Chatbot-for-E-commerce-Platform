@@ -8,7 +8,7 @@ import os
 userInformation="User Information:{name:Mahesh, Occupation: Engineering Student,gender:Male}"
 PurchaseHistory="Purchase History:Previously purchased Items include protien powder, Iphone 15 pro, Peanut butter, beardo's Face Serum, sunscreen, Hard Disk."
 conversationHistory=[]
-previouslyViewedProducts={}
+previouslyViewedProducts={"previously viewed Products":"None"}
 
 class llmInteractions:
     
@@ -22,29 +22,34 @@ class llmInteractions:
         print("IP")
 
     async def ingest(self,data:dict):
-        link= data["imgUrl"] if "imgUrl" in data else "www.example.com"
+        imgUrl= data["imgUrl"] if "imgUrl" in data else "www.example.com"
+        desc=data["details"]
+        price=data["price"]
         text=json.dumps(data)
         # print(type(data)) # = string
         augmentedDataList=self.Gemini.augment(text)
-    
+        
         for augmentedData in augmentedDataList:
             embedding=self.embedder.embed(text=augmentedData)
-            self.database.insert(name=data["productName"],desc=text,embedding=embedding,link=link)
+            self.database.insert(name=data["productName"],desc=desc,embedding=embedding,imgUrl=imgUrl,link="https://www.amazon.in/",price=price)
 
     async def inference(self,query):
         # speech to text to be integrated
         query="User's Query: "+query
+        global previouslyViewedProducts
         finalResponse=self.Gemini.Inference(query=query,conversationHistory=json.dumps(conversationHistory),
                                             PurchaseHistory=PurchaseHistory,userInformation=userInformation,
-                                            PreviouslyViewedProducts=previouslyViewedProducts)
+                                            PreviouslyViewedProducts=json.dumps(previouslyViewedProducts))
         
         conversationHistory.append({query:finalResponse['response']})
+        
         if(len(conversationHistory)>5):
             conversationHistory.remove(0)
         response={"response":finalResponse['response']}
+        response["products"]=[]
         if(finalResponse['rag_required']):
             search_text=finalResponse['search_phrase'] if 'search_phrase' in finalResponse else finalResponse['response']
-            response={"search_phrase":search_text}
+            response["search_phrase"]=search_text
             search_vector=[self.embedder.embed(search_text)]
             print(search_text)
             topk=self.database.search(search_vector)
@@ -57,7 +62,7 @@ class llmInteractions:
                 products.append(data)
             response["products"]=products
             previouslyViewedProducts={"Previously Viewed Products":products}
-            
+        print(response)
         return response
 
 

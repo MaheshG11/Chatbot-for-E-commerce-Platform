@@ -1,0 +1,131 @@
+.main{
+    flex: 1;
+    min-height: 100vh;
+    padding-bottom: 15vh;
+    position: relative;
+}
+.main button{
+    background-color: #585858;
+    width: fit-content;
+}
+.cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+    gap: 15px;
+    padding: 20px;
+}
+.main .nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 22px;
+    padding: 20px;
+    color: #585858;
+}
+.product-container {
+    display: flex; /* Optionally, control product layout within the container */
+    flex-wrap: wrap; /* Allow product cards to wrap to the next line if needed */
+  }
+
+.main .nav img{
+    width: 40px;
+    border-radius: 50%;
+}
+
+.main-container{
+    max-width: 900px;
+    margin: auto;
+}
+
+.main .greet{
+    margin: 50px 0px;
+    font-size: 56px;
+    color: #c4c7c5;
+    font-weight: 500;
+    padding: 20px;
+}
+.main .greet span{
+    background: -webkit-linear-gradient(16deg,#4b90ff,#ff5546);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-bottom{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    max-width: 900px;
+    padding: 0px 20px;
+    margin: auto;
+}
+
+.search-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: #f0f4f9;
+    padding: 10px 20px;
+    border-radius: 50px;
+}
+
+.search-box img{
+    width: 24px;
+    cursor: pointer;
+}
+
+.search-box input{
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 18px;
+}
+
+.search-box div{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.main .bottom-info{
+    font-size: 13px;
+    margin: 15px auto;
+    text-align: center;
+    font-weight: 300;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .message {
+    
+    flex-direction: column; /* Stack message and product container vertically */
+    margin-bottom: 10px; /* Add some space between messages */
+      
+    padding: 10px;
+    border-radius: 10px;
+    /* width: fit-content; */
+    max-width: 615px;
+    word-wrap: break-word;
+    display: flex; /* Maintain flexbox for user message customization */
+  }
+  
+  .message.user {
+    background-color: #f0f0f0;
+    text-align: right; /* Maintains right-aligned text within the message */
+    justify-content: flex-end; /* Aligns child elements (text) to the right within the message */
+    align-self: right;
+  }
+  
+  .message.bot {
+    background-color: #e0e0e0;
+    text-align: left;
+    align-self: left;
+  }

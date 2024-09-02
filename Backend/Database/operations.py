@@ -19,9 +19,11 @@ class Database:
         fields = [
             FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, description="primary id",auto_id=True),
             FieldSchema(name="name", dtype=DataType.VARCHAR, max_length=1024),
+            FieldSchema(name="price", dtype=DataType.VARCHAR, max_length=103),
             FieldSchema(name="Description", dtype=DataType.VARCHAR, max_length=10240),
             FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=dimension),
             FieldSchema(name="link", dtype=DataType.VARCHAR, max_length=1024),
+            FieldSchema(name="imgUrl", dtype=DataType.VARCHAR, max_length=1024)
         ]
         Schema = CollectionSchema(name="productDetails", fields=fields)
 
@@ -35,13 +37,15 @@ class Database:
         self.collection = Collection(name=collectionName,schema=Schema)
         self.collection.create_index("embedding",index_params=index_params)
 
-    def insert(self,name,desc,link,embedding):
+    def insert(self,name,desc,link,embedding,price,imgUrl):
         data=[
             {
                 "name":name,
                 "Description":desc,
                 "embedding":embedding,
-                "link":link   
+                "link":link,
+                "price":price,
+                "imgUrl":imgUrl   
             }
         ]
         self.collection.insert(data=data)
