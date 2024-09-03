@@ -18,6 +18,3 @@
     ```sh
     python3 server.py
     ```
-
-
-Every API that you will see here will consists of a "requests and responses.md" file this will help you know what kind of requests the api is expecting on what address and what response it will give. 
