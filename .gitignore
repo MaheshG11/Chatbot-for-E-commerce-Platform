@@ -5,8 +5,8 @@ dataset
 *__pycache__
 *ipynb
 *.wav
-*.yaml
-*dockerfile
+# *.yaml
+# *dockerfile
 # Logs
 logs
 *.log
@@ -31,3 +31,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.csv
+*temp

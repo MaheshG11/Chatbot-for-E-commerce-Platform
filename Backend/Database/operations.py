@@ -9,7 +9,7 @@ class Database:
         self.indexType=indexType
         self.collectionName=collectionName
         self.client=MilvusClient(
-                uri=f"http://{os.getenv("MilvusHost")}:{os.getenv("MilvusPort")}"
+                uri=f"http://{os.getenv('MilvusHost')}:{os.getenv('MilvusPort')}"
             )
         # Load data and preprocess
          # Replace with appropriate data loading method

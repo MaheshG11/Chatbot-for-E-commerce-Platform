@@ -1,13 +1,13 @@
-wavio
+# wavio
 scipy
-soundfile
+# soundfile
 g2p-en
-torch
-torchvision
-torchaudio
-sounddevice
+# torch
+# torchvision
+# torchaudio
+# sounddevice
 accelerate
-pyaudio
+# pyaudio
 google-generativeai
 fastapi
 uvicorn

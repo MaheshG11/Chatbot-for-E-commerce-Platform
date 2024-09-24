@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./ProductDetails.css";
 import { Link,useNavigate} from 'react-router-dom';
+import myObject from '../../env';
 function ProductDetails() {
   const [value, setValue] = useState({
     productName: "",
@@ -38,7 +39,7 @@ function ProductDetails() {
     };
     // console.log(jsonData);
     try {
-      const response = await axios.post("http://localhost:8002/ingest", jsonData, {
+      const response = await axios.post(`${myObject.BASE_URL}/ingest`, jsonData, {
         headers: {
           "Content-Type": "application/json",
         },

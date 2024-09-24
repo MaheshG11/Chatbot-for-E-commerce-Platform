@@ -4,13 +4,14 @@ import Main from './components/Main/Main'
 import ProductDetails from './components/ProductDetails/ProductDetails'
 import { assets } from './assets/assets'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import "./App.css"
+// import "./App.css"
 import { Link,useNavigate} from 'react-router-dom';
 import Routing from './components/Routing'
-const App = () => {
-  
-  const [changePage, setchangePage] = useState(1);
 
+// dotenv.config({path:'./.env'});
+const App = () => {
+  const [changePage, setchangePage] = useState(1);
+ 
   return (
     <>
      

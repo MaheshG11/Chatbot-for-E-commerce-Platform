@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1  # Adjust based on your scaling needs
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend-container
+        image: maheshmg11/backend:v1.1  # Replace with your actual image
+        ports:
+        - containerPort: 8002  # Port on which your backend app listens
+        env:
+        - name: ENVIRONMENT  # Add environment variables if needed
+          value: "production"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  type: NodePort
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 80          
+    targetPort: 8002     
+    nodePort: 30001

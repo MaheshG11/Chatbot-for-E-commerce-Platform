@@ -21,7 +21,7 @@ app.add_middleware(
 
 device="cuda:0" if is_available() else "cpu"
 
-llm=llmInteractions()
+llm="hehe"
 @app.post("/ingest")
 async def ingestion(request:Request):
     data= await request.json()
@@ -41,14 +41,35 @@ async def ingestion(request:Request):
 @app.post("/infer")
 async def inference(request:Request):
     data= await request.json()
-    # data=request.body()
+    data=request.body()
     # print(request)
-    print((data))
+    # print((data))
     response="hehe"
     response= await llm.inference(data['query'])
-    # response=data
+    response=data
     return response
+
+@app.post("/changeDatabaseHost")
+async def inference(request:Request):
+    data= await request.json()
+    os.environ["MilvusHost"]=data['name']
+    response=f"<host>:<port> = {os.getenv('MilvusHost')}:{os.getenv('MilvusPort')}"
+    llm=llmInteractions()
+    return response
+@app.post("/changeDatabasePort")
+async def inference(request:Request):
+    data= await request.json()
+    os.environ["MilvusPort"]=data['name']
+    llm=llmInteractions()
+    response=f"<host>:<port> = {os.getenv('MilvusHost')}:{os.getenv('MilvusPort')}"
+  
+    return response
+
 if __name__ == "__main__":
+    try:
+        llm=llmInteractions()
+    except:
+        pass
     uvicorn.run(
         app,
         host=os.getenv("ApiHost"),

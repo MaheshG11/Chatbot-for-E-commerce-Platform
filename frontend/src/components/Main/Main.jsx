@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import "./Main.css";
 import { assets } from "../../assets/assets";
 import axios from "axios";
-
+import myObject from '../../env';
 import { Link,useNavigate} from 'react-router-dom';
 import ProductCard from "./productcard"
 const Main = () => {
@@ -22,7 +22,7 @@ const Main = () => {
     
     setIsLoading(true); 
     try {
-      const res=await axios.post("http://localhost:8002/infer",jsonData,{
+      const res=await axios.post(`${myObject.BASE_URL}/infer`,jsonData,{
         headers: {
           "Content-Type": "application/json",
         },
