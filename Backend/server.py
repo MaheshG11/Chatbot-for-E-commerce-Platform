@@ -49,6 +49,10 @@ async def inference(request:Request):
     response=data
     return response
 
+
+
+
+# Below paths are for debugging purposes 
 @app.post("/changeDatabaseHost")
 async def inference(request:Request):
     data= await request.json()
